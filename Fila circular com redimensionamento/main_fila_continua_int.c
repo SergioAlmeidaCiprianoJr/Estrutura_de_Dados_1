@@ -3,6 +3,7 @@
 #include "fila_continua_int.h"
 
 int fim = 0;//finaliza o programa
+char volta_menu;
 
 int menu();
 void opcao1();
@@ -39,7 +40,6 @@ void opcao1(){
     //Inserir elementos na fila
     system("clear");
     int elementos;
-    char volta_menu;
     int operacao_finalizada = 1;
     printf("Número de elementos para inserir na fila: ");
     scanf("%d", &elementos);
@@ -78,7 +78,6 @@ void opcao2(){
     //Retirar elementos da fila
     system("clear");
     int elementos;
-    char volta_menu;
     printf("Número de elementos para retirar da fila: ");
     scanf("%d", &elementos);
     int contador = 1;
@@ -105,7 +104,6 @@ void opcao3(){
     cria_fila();
     printf("Fila reiniciada com sucesso!!\n");
     printf("Deseja voltar ao menu[S/N]: ");
-    char volta_menu;
     scanf(" %c", &volta_menu);
     if(volta_menu == 'N' || volta_menu == 'n') fim++;
 }
@@ -114,7 +112,6 @@ void opcao4(){
     system("clear");
     imprime_fila();
     printf("\nDeseja voltar ao menu[S/N]: ");
-    char volta_menu;
     scanf(" %c", &volta_menu);
     if(volta_menu == 'N' || volta_menu == 'n') fim++;
 }
