@@ -72,11 +72,6 @@ int fila_cheia(){
     if((u+1)%N==p) return 1;
     else return 0;
 }
-int conta_elementos(){
-    int total = u-p;
-    if(total<0) total += N;
-    return total;
-}
 int realoca_elementos(){
     printf("Deseja aumentar a lista[S/N]? ");
     char resposta;

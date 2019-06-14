@@ -10,7 +10,6 @@ int primeiro_da_fila();
 int ultimo_da_fila();
 int fila_vazia();
 int fila_cheia();
-int conta_elementos();
 int realoca_elementos();
 
 #endif
