@@ -10,16 +10,18 @@ typedef struct lista_encadeada_circular {
 
 // p sempre será zero
 Fila *fila;
+// considerando N tamanho da fila
+int N;
 
 void cria_fila(){
-    fila = malloc(sizeof(Fila));
+    fila = mallocc(sizeof(Fila));
     //célula cabeça
-    fila->posicao = -1;
-    fila->valor = -1;
+    fila->posicao = 0;
+    fila->valor = 0;
     fila->prox = fila;
+    N = 0;
 }
 
-/*
 void imprime_fila(){
     //printando primeira linha da tabela
     printf("\t _____");
@@ -28,8 +30,10 @@ void imprime_fila(){
     }
     printf("\n\t|");
     //printando valores da tabela
+    Fila *imprime_elemento_fila = fila->prox;
     for(int i = 0;i<N;i++){
-        printf(" %03d |", fila[i]);
+        imprime_elemento_fila = imprime_elemento_fila->prox;
+        printf(" %03d |", imprime_elemento_fila->valor);
     }
     //printando última linha da tabela
     printf("\n\t ‾‾‾‾‾");
@@ -37,26 +41,18 @@ void imprime_fila(){
         printf(" ‾‾‾‾‾");
     }
     //printando u e p
-    printf("\n\t   ");
-    int ja_veio_aqui_p = 0, ja_veio_aqui_u = 0, consertando_espaco_inadequado = 0;
+    //Na lista encadeada eles sempre estão em posições fixasS
+    printf("\n\t   p");
+    int ja_veio_aqui = 0;
     for(int i = 0; i>=0; i++){
-        consertando_espaco_inadequado = 0;
-        if(p==u && p==0) {printf("pu\n");break;}
         if(i) printf("     ");
-        if(p == i || !p) {
-            if(!ja_veio_aqui_p) {printf("p"),consertando_espaco_inadequado = 1;}
-            ja_veio_aqui_p = 1;
+        if(N == i+1) {
+            printf("     u\n");
         }
-        if(u == i) {
-            if(!ja_veio_aqui_u) {printf("u"),consertando_espaco_inadequado = 1;}
-            ja_veio_aqui_u = 1;
-        }
-        if(ja_veio_aqui_u && ja_veio_aqui_p) {printf("\n");break;}
-        if(!consertando_espaco_inadequado) printf(" ");
+        printf(" ");
     }
    
 }
-*/
 
 void remove_fila(){
     Fila *lixo = fila->prox;
@@ -65,21 +61,22 @@ void remove_fila(){
 }
 void entra_fila(int elemento){
     Fila *nova;
-    nova = malloc(sizeof(Fila));
+    nova = mallocc(sizeof(Fila));
     nova->valor = elemento;
     Fila *ultimo_elemento = ultimo_da_fila();
     nova->prox = ultimo_elemento->prox;
     ultimo_elemento->prox = nova;
+    N++;
 }
 Fila* ultimo_da_fila(){
     Fila *ultimo_elemento = fila;
-    while(ultimo_elemento->prox->posicao != -1){
+    while(ultimo_elemento->prox->posicao != 0){
         ultimo_elemento = ultimo_elemento->prox;
     }
     return ultimo_elemento;
 }
 int fila_vazia(){
-    if(fila->prox->posicao == -1) return 1;
+    if(fila->prox->posicao == 0) return 1;
     else return 0;
 }
 int fila_cheia(){
