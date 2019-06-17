@@ -3,7 +3,6 @@
 #include "fila_lista_encadeada_circular_int.h"
 
 typedef struct lista_encadeada_circular {
-   int posicao;
    int valor;
    struct lista_encadeada_circular *prox;
 } Fila;
@@ -16,8 +15,7 @@ int N;
 void cria_fila(){
     fila = mallocc(sizeof(Fila));
     //célula cabeça
-    fila->posicao = 0;
-    fila->valor = 0;
+    fila->valor = -1;
     fila->prox = fila;
     N = 0;
 }
@@ -60,23 +58,24 @@ void remove_fila(){
     free(lixo);
 }
 void entra_fila(int elemento){
-    Fila *nova;
+    //para economizar tempo sempre a célula cabeça é recriada
+    Fila *nova, *realiza_troca;
+    //fazendo nova virar a célula cabeça
     nova = mallocc(sizeof(Fila));
-    nova->valor = elemento;
-    Fila *ultimo_elemento = ultimo_da_fila();
-    nova->prox = ultimo_elemento->prox;
-    ultimo_elemento->prox = nova;
+    nova->valor = -1;
+    nova->prox = fila->prox;
+
+    fila->prox = nova;
+    fila->valor = elemento;
+    //fazendo fila voltar a ser a célula cabeça
+    realiza_troca = fila;
+    fila = nova;
+    nova = realiza_troca;
+
     N++;
 }
-Fila* ultimo_da_fila(){
-    Fila *ultimo_elemento = fila;
-    while(ultimo_elemento->prox->posicao != 0){
-        ultimo_elemento = ultimo_elemento->prox;
-    }
-    return ultimo_elemento;
-}
 int fila_vazia(){
-    if(fila->prox->posicao == 0) return 1;
+    if(fila->prox->valor == -1) return 1;
     else return 0;
 }
 int fila_cheia(){
