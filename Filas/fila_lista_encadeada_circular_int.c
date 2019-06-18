@@ -10,11 +10,13 @@ typedef struct lista_encadeada_circular {
 // p sempre será zero
 Fila *fila;
 // considerando N tamanho da fila
-int N;
+int N = 0;
 
 void cria_fila(){
-    fila = mallocc(sizeof(Fila));
+    //chamada quando a fila é reiniciada
+    if(N>0) limpa_fila();
     //célula cabeça
+    fila = mallocc(sizeof(Fila));
     fila->valor = -1;
     fila->prox = fila;
     N = 0;
@@ -27,6 +29,8 @@ void imprime_fila(){
         printf(" _____");
     }
     printf("\n\t|");
+    //printando célula cabeça
+    printf(" --- |");
     //printando valores da tabela
     Fila *imprime_elemento_fila = fila->prox;
     for(int i = 0;i<N;i++){
@@ -38,26 +42,18 @@ void imprime_fila(){
     for(int i = 1;i<N;i++){
         printf(" ‾‾‾‾‾");
     }
-    //printando u e p
-    //Na lista encadeada eles sempre estão em posições fixasS
-    printf("\n\t   p");
-    int ja_veio_aqui = 0;
-    for(int i = 0; i>=0; i++){
-        if(i) printf("     ");
-        if(N == i+1) {
-            printf("     u\n");
-        }
-        printf(" ");
-    }
-   
+    //printando célula cabeça
+    printf("\n\t head");
 }
 
 int remove_fila(){
     if(fila_vazia) return 0;
     Fila *lixo = fila->prox;
+    int elemento_removido = fila->prox->valor;
     fila->prox = lixo->prox;
     free(lixo);
-    return 1;
+    N--;
+    return elemento_removido;
 }
 int entra_fila(int elemento){
     //para economizar tempo sempre a célula cabeça é recriada
@@ -80,9 +76,6 @@ int entra_fila(int elemento){
 
     return 1;
 }
-int primeiro_da_fila(){
-    return fila->prox->valor;
-}
 int fila_vazia(){
     if(fila->prox->valor == -1) return 1;
     else return 0;
@@ -90,4 +83,9 @@ int fila_vazia(){
 int fila_cheia(){
     //Nunca fica cheia
     return 0;
+}
+void limpa_fila(){
+    while(!fila_vazia){
+        remove_fila();
+    }
 }

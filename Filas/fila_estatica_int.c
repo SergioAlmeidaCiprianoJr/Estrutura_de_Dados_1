@@ -59,9 +59,6 @@ int entra_fila(int elemento){
     fila[u++] = elemento;
     return 1;
 }
-int primeiro_da_fila(){
-    return fila[p];
-}
 int fila_vazia(){
     return u==p;
 }
