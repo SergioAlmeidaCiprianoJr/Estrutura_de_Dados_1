@@ -52,14 +52,17 @@ void imprime_fila(){
    
 }
 
-void remove_fila(){
+int remove_fila(){
+    if(fila_vazia) return 0;
     Fila *lixo = fila->prox;
     fila->prox = lixo->prox;
     free(lixo);
+    return 1;
 }
-void entra_fila(int elemento){
+int entra_fila(int elemento){
     //para economizar tempo sempre a célula cabeça é recriada
     Fila *nova, *realiza_troca;
+
     //fazendo nova virar a célula cabeça
     nova = mallocc(sizeof(Fila));
     nova->valor = -1;
@@ -67,12 +70,18 @@ void entra_fila(int elemento){
 
     fila->prox = nova;
     fila->valor = elemento;
+
     //fazendo fila voltar a ser a célula cabeça
     realiza_troca = fila;
     fila = nova;
     nova = realiza_troca;
 
     N++;
+
+    return 1;
+}
+int primeiro_da_fila(){
+    return fila->prox->valor;
 }
 int fila_vazia(){
     if(fila->prox->valor == -1) return 1;

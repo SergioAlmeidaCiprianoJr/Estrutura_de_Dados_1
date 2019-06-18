@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fila_int.h"
+#include "fila_estatica_int.h"
 #define N 10
 
 static int fila[N];
@@ -48,17 +48,19 @@ void imprime_fila(){
     }
    
 }
-void remove_fila(){
+int remove_fila(){
+    if(fila_vazia) return 0;
+    int elemento_removido = fila[p];
     fila[p++] = 0;
+    return elemento_removido;
 }
-void entra_fila(int elemento){
+int entra_fila(int elemento){
+    if(fila_cheia) return 0;
     fila[u++] = elemento;
+    return 1;
 }
 int primeiro_da_fila(){
     return fila[p];
-}
-int ultimo_da_fila(){
-    return fila[u-1];
 }
 int fila_vazia(){
     return u==p;

@@ -51,16 +51,18 @@ void imprime_fila(){
     }
    
 }
-void remove_fila(){
+int remove_fila(){
+    if(fila_vazia) return 0;
+    int elemento_removido = fila[p];
     fila[p++] = 0;
     if(p==N) p = 0;
+    return elemento_removido;
 }
-void entra_fila(int elemento){
+int entra_fila(int elemento){
+    if(fila_cheia()) realoca_elementos();
     fila[u++] = elemento;
     if(u==N) u = 0;
-}
-void esvazia_memoria(){
-    free(fila);
+    return 1;
 }
 int primeiro_da_fila(){
     return fila[p];
@@ -72,15 +74,8 @@ int fila_cheia(){
     if((u+1)%N==p) return 1;
     else return 0;
 }
-int realoca_elementos(){
-    printf("Deseja aumentar a lista[S/N]? ");
-    char resposta;
-    scanf(" %c", &resposta);
-    if(resposta == 's' || resposta == 'S') printf("Digite números de casas que deseja adicionar: ");
-    else return -1;
-    int casas;
-    scanf("%d", &casas);
-    int novoN = casas + N;
+void realoca_elementos(){
+    int novoN = 10 + N;
     int *vetor;
     vetor = malloc(novoN*sizeof(int));
     if(p<u){
@@ -104,5 +99,4 @@ int realoca_elementos(){
     N = novoN;
     free(fila);
     fila = vetor;
-    return casas;
 }
