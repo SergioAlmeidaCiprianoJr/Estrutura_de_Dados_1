@@ -52,7 +52,7 @@ void imprime_fila(){
    
 }
 int remove_fila(){
-    if(fila_vazia) return -1;
+    if(fila_vazia()) return -1;
     int elemento_removido = fila[p];
     fila[p++] = 0;
     return elemento_removido;

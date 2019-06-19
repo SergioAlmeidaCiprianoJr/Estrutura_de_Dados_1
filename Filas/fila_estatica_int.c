@@ -49,13 +49,13 @@ void imprime_fila(){
    
 }
 int remove_fila(){
-    if(fila_vazia) return -1;
+    if(fila_vazia()) return -1;
     int elemento_removido = fila[p];
     fila[p++] = 0;
     return elemento_removido;
 }
 int entra_fila(int elemento){
-    if(fila_cheia) return 0;
+    if(fila_cheia()) return 0;
     fila[u++] = elemento;
     return 1;
 }

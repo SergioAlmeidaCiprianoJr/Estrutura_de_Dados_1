@@ -16,7 +16,7 @@ void cria_fila(){
     //chamada quando a fila é reiniciada
     if(N>0) limpa_fila();
     //célula cabeça
-    fila = mallocc(sizeof(Fila));
+    fila = malloc(sizeof(Fila));
     fila->valor = -1;
     fila->prox = fila;
     N = 0;
@@ -25,7 +25,7 @@ void cria_fila(){
 void imprime_fila(){
     //printando primeira linha da tabela
     printf("\t _____");
-    for(int i = 1;i<N;i++){
+    for(int i = 1;i<=N;i++){
         printf(" _____");
     }
     printf("\n\t|");
@@ -34,20 +34,20 @@ void imprime_fila(){
     //printando valores da tabela
     Fila *imprime_elemento_fila = fila->prox;
     for(int i = 0;i<N;i++){
-        imprime_elemento_fila = imprime_elemento_fila->prox;
         printf(" %03d |", imprime_elemento_fila->valor);
+        imprime_elemento_fila = imprime_elemento_fila->prox;
     }
     //printando última linha da tabela
     printf("\n\t ‾‾‾‾‾");
-    for(int i = 1;i<N;i++){
+    for(int i = 1;i<=N;i++){
         printf(" ‾‾‾‾‾");
     }
     //printando célula cabeça
-    printf("\n\t head");
+    printf("\n\t head\n");
 }
 
 int remove_fila(){
-    if(fila_vazia) return -1;
+    if(fila_vazia()) return -1;
     Fila *lixo = fila->prox;
     int elemento_removido = fila->prox->valor;
     fila->prox = lixo->prox;
@@ -60,7 +60,7 @@ int entra_fila(int elemento){
     Fila *nova, *realiza_troca;
 
     //fazendo nova virar a célula cabeça
-    nova = mallocc(sizeof(Fila));
+    nova = malloc(sizeof(Fila));
     nova->valor = -1;
     nova->prox = fila->prox;
 
