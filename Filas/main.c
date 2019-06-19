@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "fila_estatica_int.h"
+//#include "fila_estatica_int.h"
 //#include "fila_continua_int.h"
-//#include "fila_lista_encadeada_circular_int.h"
+#include "fila_lista_encadeada_circular_int.h"
 
 int fim = 0;//finaliza o programa
 char volta_menu;
