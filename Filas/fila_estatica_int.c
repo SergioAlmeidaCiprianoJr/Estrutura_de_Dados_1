@@ -3,8 +3,8 @@
 #include "fila_estatica_int.h"
 #define N 10
 
-static int fila[N];
-static int p, u;
+int fila[N];
+int p, u;
 
 void cria_fila(){
     p = 0;
@@ -49,7 +49,7 @@ void imprime_fila(){
    
 }
 int remove_fila(){
-    if(fila_vazia) return 0;
+    if(fila_vazia) return -1;
     int elemento_removido = fila[p];
     fila[p++] = 0;
     return elemento_removido;

@@ -47,7 +47,7 @@ void imprime_fila(){
 }
 
 int remove_fila(){
-    if(fila_vazia) return 0;
+    if(fila_vazia) return -1;
     Fila *lixo = fila->prox;
     int elemento_removido = fila->prox->valor;
     fila->prox = lixo->prox;

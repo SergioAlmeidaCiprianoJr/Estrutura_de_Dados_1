@@ -52,16 +52,14 @@ void imprime_fila(){
    
 }
 int remove_fila(){
-    if(fila_vazia) return 0;
+    if(fila_vazia) return -1;
     int elemento_removido = fila[p];
     fila[p++] = 0;
-    if(p==N) p = 0;
     return elemento_removido;
 }
 int entra_fila(int elemento){
     if(fila_cheia()) realoca_elementos();
     fila[u++] = elemento;
-    if(u==N) u = 0;
     return 1;
 }
 int fila_vazia(){
@@ -72,7 +70,7 @@ int fila_cheia(){
     else return 0;
 }
 void realoca_elementos(){
-    int novoN = 10 + N;
+    int novoN = 5 + N;
     int *vetor;
     vetor = malloc(novoN*sizeof(int));
     if(p<u){

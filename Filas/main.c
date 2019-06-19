@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "fila_estatica_int.h"
+#include "fila_estatica_int.h"
 //#include "fila_continua_int.h"
-#include "fila_lista_encadeada_circular_int.h"
+//#include "fila_lista_encadeada_circular_int.h"
 
 int fim = 0;//finaliza o programa
 char volta_menu;
@@ -77,15 +77,16 @@ void opcao2(){
     printf("Número de elementos para retirar da fila: ");
     scanf("%d", &elementos);
     int contador = 1;
-    while(fila_vazia()){
+    while(elementos){
         int elemento_removido = remove_fila();
-        if(!elemento_removido){
+        if(elemento_removido == -1){
             printf("\nNão foi possível remover %d elemento(s)!!\nA fila já está completamente vazia!!\n", elementos);
+            break;
         }
         else{
             printf("Removendo %d, que é o %d° elemento da fila.\n", elemento_removido, contador);
-            elementos--;
             if(!elementos) break;    
+            elementos--;
             contador++;
         }
     }
