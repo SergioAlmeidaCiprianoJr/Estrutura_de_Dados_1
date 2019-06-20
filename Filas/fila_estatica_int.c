@@ -49,20 +49,28 @@ void imprime_fila(){
    
 }
 int remove_fila(){
+    //retorna -1 para indicar fila vazia
+    //retorna o elemento_removido caso a operação tenha sido um sucesso
     if(fila_vazia()) return -1;
     int elemento_removido = fila[p];
     fila[p++] = 0;
     return elemento_removido;
 }
 int entra_fila(int elemento){
+    //retorna 0 para caso a fila esteja cheia
+    //retorna 1 para caso a operação tenha sido um sucesso
     if(fila_cheia()) return 0;
     fila[u++] = elemento;
     return 1;
 }
 int fila_vazia(){
+    //retorna 0 para caso a fila não esteja vazia
+    //retorna 1 para caso a fila esteja vazia
     return u==p;
 }
 int fila_cheia(){
+    //retorna 0 para caso a fila não esteja cheia
+    //retorna 1 para caso a fila esteja cheia
     if(u >= N) return 1;
     else return 0;
 }

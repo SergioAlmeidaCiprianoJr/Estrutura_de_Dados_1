@@ -7,7 +7,7 @@ Códigos da disciplina estrutura de dados 1
 * Ponteiro (Fila com redimensionamento)
 * Struct (Fila encadeada circular)
 
-## Como compilar e executar
+## Como compilar e executar:
 
 ### Para usar a fila estatica:
 

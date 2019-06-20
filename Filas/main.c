@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-//#include "fila_estatica_int.h"
+#include "fila_estatica_int.h"
 //#include "fila_continua_int.h"
-#include "fila_lista_encadeada_circular_int.h"
+//#include "fila_lista_encadeada_circular_int.h"
 
 int fim = 0;//finaliza o programa
 char volta_menu;
@@ -18,12 +18,13 @@ int main(){
 
     cria_fila();
     void (*opcao[])() = { opcao1, opcao2, opcao3, opcao4, opcao5};
-    while(!fim) opcao[menu()-1]();
+    while(!fim) opcao[menu()]();
     system("clear");
     return 0;
 }
 
 int menu(){
+    //retorna opcao selecionada
     int opcao;
     system("clear");
     printf("Crie sua fila personalizada:\n\n");
@@ -35,7 +36,7 @@ int menu(){
     printf("(5) Sair\n\n");
     printf("Escolha: ");
     scanf("%d", &opcao);
-    return opcao;
+    return opcao-1;
 }
 
 void opcao1(){

@@ -7,9 +7,7 @@ typedef struct lista_encadeada_circular {
    struct lista_encadeada_circular *prox;
 } Fila;
 
-// p sempre será zero
 Fila *fila;
-// considerando N tamanho da fila
 int N = 0;
 
 void cria_fila(){
@@ -47,6 +45,8 @@ void imprime_fila(){
 }
 
 int remove_fila(){
+    //retorna -1 para indicar fila vazia
+    //retorna o elemento_removido caso a operação tenha sido um sucesso
     if(fila_vazia()) return -1;
     Fila *lixo = fila->prox;
     int elemento_removido = fila->prox->valor;
@@ -56,6 +56,7 @@ int remove_fila(){
     return elemento_removido;
 }
 int entra_fila(int elemento){
+    //retorna 1 quando a operação é um sucesso
     //para economizar tempo sempre a célula cabeça é recriada
     Fila *nova, *realiza_troca;
 
@@ -77,6 +78,8 @@ int entra_fila(int elemento){
     return 1;
 }
 int fila_vazia(){
+    //retorna 0 para caso a fila não esteja vazia
+    //retorna 1 para caso a fila esteja vazia
     if(fila->prox->valor == -1) return 1;
     else return 0;
 }
@@ -85,6 +88,7 @@ int fila_cheia(){
     return 0;
 }
 void limpa_fila(){
+    //remove todos elementos da fila
     while(!fila_vazia){
         remove_fila();
     }
