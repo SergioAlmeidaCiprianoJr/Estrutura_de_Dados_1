@@ -1,102 +1,124 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+int Prioridade(char c, char t){
+  int pc,pt;
+ 
+  if(c == '^')
+    pc = 4;
+  else if(c == '*' || c == '/')
+    pc = 2;
+  else if(c == '+' || c == '-')
+    pc = 1;
+  else if(c == '(')
+    pc = 4;
+ 
+  if(t == '^')
+    pt = 3;
+  else if(t == '*' || t == '/')
+    pt = 2;
+  else if(t == '+' || t == '-')
+    pt = 1;
+  else if(t == '(')
+    pt = 0;
+ 
+  return (pc > pt);
+}
+typedef struct Pilha {
 
-void remove_pilha(char elemento);
-void entra_pilha(char elemento);
-int pilha_nao_vazia();
+	int topo;
+	int capa;
+	char *pElem;
 
-char pilha[510] = {};//todas as funções
-char posfixa[510] = {};
-int t;
+}Pilha;
 
+void CriaPilha( Pilha *p, int c ){
+   p->topo = -1;
+   p->capa = c;
+   p->pElem = (char*) malloc (c * sizeof(char));
+}
+
+void Empilha ( Pilha *p, char v){
+	p->topo++;
+	p->pElem [p->topo] = v;
+}
+
+char Desempilha (Pilha *p ){
+   char aux = p->pElem [p->topo];
+   p->topo--;
+   return aux;
+}
+
+void Conversor(char expr[]){
+  Pilha p;
+  int i = 0;
+  char c,t;
+ 
+  CriaPilha(&p,510);
+  Empilha(&p, '(');
+ 
+  do{
+    c = expr[i];
+    i++;
+    if(c >= 'A' && c <= 'Z'){
+      printf("%c", c);
+    }
+    else if(c == '('){
+      Empilha(&p, '(');
+    }
+    else if(c == ')' || c == '\0'){
+      do{
+        t = Desempilha(&p);
+        if(t != '(')
+          printf("%c", t);
+      }while(t != '(');
+    }
+    else if(c == '+' || c == '-' || 
+            c == '*' || c == '/' ||
+            c == '^' ){
+      while(1){
+        t = Desempilha(&p);
+        if(Prioridade(c,t)){
+          Empilha(&p, t);
+          Empilha(&p, c);
+          break;
+        }
+        else{
+          printf("%c", t);
+        }
+      }
+    }
+  }while(c != '\0');
+  printf("\n");
+}
+int checaParentese(char aux[]){
+	int p=0,c=0,x=0;
+	for(int i = 0;i<strlen(aux);i++){
+		if(aux[i]=='('){
+			p++;
+		}else if(aux[i]==')'){
+			p--;
+		}if(aux[i]=='['){
+			c++;
+		}else if(aux[i]==']'){
+			c--;
+		}if(aux[i]=='{'){
+			x++;
+		}else if(aux[i]=='}'){
+			x--;
+		} 
+	}
+	if(p==0&&x==0&&c==0)
+		return 1;
+	return 0;
+}
 int main(){
-
-    int i = 1;
-    char escaneia;
-    scanf("%c", &escaneia);
-    expressao[0] = '(';
-    while(escaneia!='\n'){
-        expressao[i++] = escaneia;
-        if(escaneia == '{') entra_pilha('}');
-        else if(escaneia == '(') entra_pilha(')');
-        else if(escaneia == '[') entra_pilha(']');
-        else if(escaneia == '}') remove_pilha('}');
-        else if(escaneia == ']') remove_pilha(']');
-        else if(escaneia == ')') remove_pilha(')');
-        scanf("%c", &escaneia);
-    }
-    expressao[i++] = ')';
-    expressao[i] = '\0';
-    
-    if(!resultado || pilha_nao_vazia()) {printf("incorretamente parentizada\n");return 0;}
-    
-    
-    
-    
-    return 0;
+	char aux[510];
+	scanf("%s",aux);
+	if(checaParentese(aux)){
+		Conversor(aux);	
+	}else{
+		printf("incorretamente parentizada\n");
+	}
+	return 0;
 }
-
-void remove_pilha(char elemento){
-    char retirado;
-    if(!resultado);
-    else if(!pilha_nao_vazia()) resultado = 0;
-    else{    
-        retirado = pilha[--t];
-        if(retirado!=elemento) resultado = 0;
-    }
-}
-void entra_pilha(char elemento){
-    pilha[t++] = elemento;
-}
-char desempilha(){
-    return pilha[--t];
-}
-int pilha_nao_vazia(){
-    return t>0;
-}
-
-Entrada:Uma expressao matemematica exp[1..n]
-
-para cada caracter c em exp[1..n] faca
-    se c estiver entre A e Z entao
-        posfixa[j]←c
-        j←j+ 1
-    senao
-        sec = ‘(’entao
-            empilha(c)
-        senao
-            sec = ‘)’entao
-                op←desempilha()
-                enquanto op!=‘(’ faca
-                    posfixa[j]←op
-                    j←j+ 1
-                    op←desempilha()
-                fim
-            senao
-                t←desempilha()
-                se prioridade(c)>prioridade(t) entao
-                    empilha(t)
-                    empilha(c)
-                senao
-                    enquanto prioridade(c)≤prioridade(t) faca
-                        posfixa[j]←t
-                        j←j+ 1
-                        t←desempilha()
-                    fim
-                    empilha(t)
-                    empilha(c)
-                fim
-            fim
-        fim
-    fim
-fim
-
-enquanto pilhavazia() = false faca
-    posfixa[j]←desempilha()
-    j←j+ 1
-fim
-    
-    
-    
-    
-    
