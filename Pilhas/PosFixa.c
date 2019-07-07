@@ -1,124 +1,175 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<math.h>
 
-void remove_pilha(char elemento);
-void entra_pilha(char elemento);
-int pilha_nao_vazia();
-void criaPosFixa();
-void prioridade();
+//Algoritmo que gera e soluciona entradas do tipo:
+//A+B^C
+//A=4
+//B=3
+//C=2
+//Posfixa: ABC^+
+//Valor: 13
 
-char pilha[510] = {};//todas as funções
-char expressao[510] = {};
-char posfixa[510] = {};
-int t = 0, j = 0;
+typedef struct Pilha {
+	int topo;
+	int capa;
+	char *pElem;
+
+}Pilha;
+
+char posFixa[510];
+int resolve[510];
+int s = 0, topoPilha = 0;
+
+int Prioridade(char c, char t);
+void CriaPilha( Pilha *p, int c );
+void Empilha( Pilha *p, char v);
+char Desempilha(Pilha *p );
+void PosFixa(char expr[]);
+int checaParentese(char *aux);
+int potenciacao(int a, int b);
 
 int main(){
+	char aux[510];
+	int alfabeto[27];
+	scanf("%s",aux);
+	getchar();
+	char letra;
+	int valor;
+	while(scanf(" %c=%d", &letra, &valor) != EOF){
+	    alfabeto[letra-'A'] = valor;
+	}
+	if(checaParentese(aux)){
+		PosFixa(aux);
+		printf("Posfixa: %s\n", posFixa);	
+		for(int i = 0; i<s; i++){
+		    char x = posFixa[i];
+		    if(x >= 65 && x <= 90){
+		        resolve[topoPilha++] = alfabeto[x-'A'];
+		    }
+		    else if(x == '+' || x == '-' || 
+			    x == '*' || x == '/' ||
+			    x == '^' ){
+		        int valor2 = resolve[--topoPilha];
+		        int valor1 = resolve[--topoPilha]; 
+		        int total;
+		        if(x == '+') total = valor1 + valor2;
+		        else if(x == '-') total = valor1 - valor2;
+		        else if(x == '/') total = valor1 / valor2;
+		        else if(x == '*') total = valor1 * valor2;
+		        else if(x == '^') total = pow(valor1, valor2);
+		        resolve[topoPilha++] = total;
+		    }
+		}
+		printf("Valor: %d\n", resolve[0]);
+	}else{
+		printf("emf\n");
+	}
+	return 0;
+}
 
-    int i = 1;
-    char escaneia;
-    scanf("%c", &escaneia);
-    expressao[0] = '(';
-    while(escaneia!='\n'){
-        expressao[i++] = escaneia;
-        if(escaneia == '{') entra_pilha('}');
-        else if(escaneia == '(') entra_pilha(')');
-        else if(escaneia == '[') entra_pilha(']');
-        else if(escaneia == '}') remove_pilha('}');
-        else if(escaneia == ']') remove_pilha(']');
-        else if(escaneia == ')') remove_pilha(')');
-        scanf("%c", &escaneia);
+int potenciacao(int a, int b){
+    int total = a;
+    int boleano = 0;
+    if(b<0) {b *= -1;boleano=1;}
+    b--;
+    while(b--){
+        total *= a;
     }
-    expressao[i++] = ')';
-    expressao[i] = '\0';
-    
-    if(!resultado || pilha_nao_vazia()) {printf("incorretamente parentizada\n");return 0;}
-    
-    t = 0
-    criaPosFixa();
-    
-    for(int i = 0; i<j; i++){
-        printf("%c", posfixa[i]);
+    if(boleano) total = 1/total;
+    return total;
+}
+
+int Prioridade(char c, char t){
+  int pc,pt;
+ 
+  if(c == '^')
+    pc = 4;
+  else if(c == '*' || c == '/')
+    pc = 2;
+  else if(c == '+' || c == '-')
+    pc = 1;
+  else if(c == '(')
+    pc = 4;
+ 
+  if(t == '^')
+    pt = 3;
+  else if(t == '*' || t == '/')
+    pt = 2;
+  else if(t == '+' || t == '-')
+    pt = 1;
+  else if(t == '(')
+    pt = 0;
+ 
+  return (pc > pt);
+}
+
+void CriaPilha( Pilha *p, int c ){
+   p->topo = -1;
+   p->capa = c;
+   p->pElem = (char*) malloc (c * sizeof(char));
+}
+
+void Empilha ( Pilha *p, char v){
+	p->topo++;
+	p->pElem [p->topo] = v;
+}
+
+char Desempilha (Pilha *p ){
+   char aux = p->pElem [p->topo];
+   p->topo--;
+   return aux;
+}
+
+void PosFixa(char expr[]){
+  Pilha p;
+  int i = 0;
+  char c,t;
+ 
+  CriaPilha(&p,510);
+  Empilha(&p, '(');
+ 
+  do{
+    c = expr[i];
+    i++;
+    if(c >= 'A' && c <= 'Z'){
+      posFixa[s++] = c;
     }
-    printf("\n");
-
-    
-    
-    return 0;
-}
-
-void remove_pilha(char elemento){
-    char retirado;
-    if(!resultado);
-    else if(!pilha_nao_vazia()) resultado = 0;
-    else{    
-        retirado = pilha[--t];
-        if(retirado!=elemento) resultado = 0;
+    else if(c == '('){
+      Empilha(&p, '(');
     }
-}
-void entra_pilha(char elemento){
-    pilha[t++] = elemento;
-}
-char desempilha(){
-    return pilha[--t];
-}
-int pilha_nao_vazia(){
-    return t>0;
-}
-
-void criaPosFixa(){
-
-	for(int i = 1; expressao[i] != '\0'; ++i) {
-        if(expressao[i] >= 'A' && expressao[i] <= 'Z'){
-	        posfixa[j] = expressao[i];
-	        j++;
+    else if(c == ')' || c == '\0'){
+      do{
+        t = Desempilha(&p);
+        if(t != '(')
+          posFixa[s++] = t;
+      }while(t != '(');
+    }
+    else if(c == '+' || c == '-' || 
+            c == '*' || c == '/' ||
+            c == '^' ){
+      while(1){
+        t = Desempilha(&p);
+        if(Prioridade(c,t)){
+          Empilha(&p, t);
+          Empilha(&p, c);
+          break;
         }
         else{
-	        if(expressao[i] == '('){
-	            entra_pilha(expressao[i]);
-		    }
-		    else{
-		        if(expressao[i] == ')'{
-		            char op = desempilha();
-		            while(op!='('){ 
-		                posfixa[j] = op;
-		                j++;
-		                op = desempilha();
-		            }
-	            }
-	            else{
-		            char t = desempilha();
-		            if(prioridade(c)>prioridade(t)){
-		                entra_pilha(t);
-		                entra_pilha(c);
-		            else{
-		                while(prioridade(c)<=prioridade(t)){
-		                    posfixa[j]=t;
-		                    j++;
-		                    t = desempilha();
-		                }
-		                entra_pilha(t);
-		                entra_pilha(c);
-		            }
-		        }
-		    }
-	    }
-	}
-
-	while(pilha_nao_vazia() == true){
-	    posfixa[j] = desempilha();
-	    j++;
-	}
-
+          posFixa[s++] = t;
+        }
+      }
+    }
+  }while(c != '\0');
 }
-
-void prioridade(){
-
+int checaParentese(char *aux){
+	int p=0;
+	for(int i = 0;i<strlen(aux);i++){
+		if(aux[i]=='(') p++;
+        else if(aux[i]==')') p--;
+	}
+	if(p==0)
+		return 1;
+	return 0;
 }
-
-
-
-
-    
-    
-    
-    
